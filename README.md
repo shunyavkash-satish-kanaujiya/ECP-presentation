@@ -13,11 +13,4 @@ A clean, modern, and interactive web presentation describing the core engineerin
 The live slides are accessible at:
 https://shunyavkash-satish-kanaujiya.github.io/ECP-presentation/
 
-## Running Locally
 
-Simply open the `index.html` file in any modern web browser, or use a local development server:
-
-```bash
-# Example using python to serve locally
-python -m http.server 8000
-```
