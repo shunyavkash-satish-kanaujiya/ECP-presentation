@@ -368,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nodeEl.style.transform = 'translate(-50%, -50%)';
 
         if (n.isHub) {
-            nodeEl.style.cursor = 'pointer';
+            nodeEl.classList.add('interactive');
             nodeEl.addEventListener('click', () => handleTopoNodeClick(n.id));
         }
 
