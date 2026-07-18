@@ -5,6 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Entity-Communication Paradigm (ECP) - Developer Induction</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Part 1 Welcome Triad style */
+        .triad-welcome-container {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .triad-welcome-boundary {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border: 2px dashed var(--accent-green);
+            border-radius: 50%;
+            animation: spin-boundary 15s linear infinite;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+        }
+        .triad-welcome-core {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            z-index: 2;
+        }
+        .triad-welcome-node {
+            position: absolute;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.65rem;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            animation: float-orbit 8s ease-in-out infinite;
+        }
+        .node-a { top: 15px; border-color: var(--accent-purple); animation-delay: 0s; }
+        .node-k { bottom: 25px; left: 15px; border-color: var(--accent-blue); animation-delay: -2s; }
+        .node-i { bottom: 25px; right: 15px; border-color: var(--accent-cyan); animation-delay: -4s; }
+
+        @keyframes spin-boundary {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes float-orbit {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+    </style>
 </head>
 <body>
     <div id="presentation-container">
@@ -32,24 +97,12 @@
                         <p>Welcome! ECP is core engineering blueprint. It is a simple, unified way to design and understand how software services, databases, and human teams coordinate to build reliable applications.</p>
                     </div>
                     <div class="welcome-decor">
-                        <div class="ecp-network">
-                            <!-- Entity 1 -->
-                            <div class="net-entity" id="net-ent-1">
-                                <span class="net-title">Entity 1</span>
-                                <div class="net-sub">Abilities &<br>Knowledge</div>
-                                <div class="net-boundary" title="Interface Boundary"></div>
-                            </div>
-                            <!-- Connection channel -->
-                            <div class="net-channel">
-                                <div class="net-packet"></div>
-                                <div class="net-channel-label">Communication</div>
-                            </div>
-                            <!-- Entity 2 -->
-                            <div class="net-entity" id="net-ent-2">
-                                <span class="net-title">Entity 2</span>
-                                <div class="net-sub">Abilities &<br>Knowledge</div>
-                                <div class="net-boundary" title="Interface Boundary"></div>
-                            </div>
+                        <div class="triad-welcome-container">
+                            <div class="triad-welcome-boundary"></div>
+                            <div class="triad-welcome-core">ENTITY</div>
+                            <div class="triad-welcome-node node-a"><span style="color:var(--accent-purple); font-weight:800;">A</span>Abilities</div>
+                            <div class="triad-welcome-node node-k"><span style="color:var(--accent-blue); font-weight:800;">K</span>Knowledge</div>
+                            <div class="triad-welcome-node node-i"><span style="color:var(--accent-cyan); font-weight:800;">I</span>Interfaces</div>
                         </div>
                     </div>
                 </div>

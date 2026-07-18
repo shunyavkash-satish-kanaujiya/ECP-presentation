@@ -108,6 +108,42 @@
             background: rgba(239, 68, 68, 0.2);
             border-top: 2px dashed rgba(239, 68, 68, 0.4);
         }
+        /* Part 3 Welcome Architecture Tree Style */
+        .arch-welcome-container {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            background: rgba(0,0,0,0.15);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .arch-welcome-layer {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            z-index: 2;
+        }
+        .arch-welcome-node {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-color);
+            font-size: 0.65rem;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            position: relative;
+            text-align: center;
+        }
+        .arch-node-ui { border-color: var(--accent-purple); box-shadow: 0 0 12px rgba(168, 85, 247, 0.2); }
+        .arch-node-gw { border-color: var(--accent-blue); }
+        .arch-node-srv { border-color: var(--accent-cyan); }
+        .arch-node-db { border-color: var(--accent-green); }
     </style>
 </head>
 <body>
@@ -136,20 +172,23 @@
                         <p>Welcome! This presentation covers Chapters 5 & 6: mapping ECP constructs to real-world architectures (monoliths, microservices, serverless, and event-driven systems) and operational deployment topologies.</p>
                     </div>
                     <div class="welcome-decor">
-                        <div class="ecp-network">
-                            <div class="net-entity" id="net-ent-1">
-                                <span class="net-title">Architecture</span>
-                                <div class="net-sub">Monolith vs<br>Microservice</div>
-                                <div class="net-boundary" title="Interface Boundary"></div>
+                        <div class="arch-welcome-container">
+                            <!-- UI Layer -->
+                            <div class="arch-welcome-layer" style="margin-bottom: 0.5rem;">
+                                <div class="arch-welcome-node arch-node-ui">User Interface</div>
                             </div>
-                            <div class="net-channel">
-                                <div class="net-packet"></div>
-                                <div class="net-channel-label" style="color: var(--accent-cyan);">Execution</div>
+                            <!-- Gateway Layer -->
+                            <div class="arch-welcome-layer" style="margin-bottom: 0.5rem;">
+                                <div class="arch-welcome-node arch-node-gw">API Gateway</div>
                             </div>
-                            <div class="net-entity" id="net-ent-2">
-                                <span class="net-title">Deployment</span>
-                                <div class="net-sub">Containers &<br>Orchestration</div>
-                                <div class="net-boundary" title="Interface Boundary"></div>
+                            <!-- Microservices Layer -->
+                            <div class="arch-welcome-layer" style="margin-bottom: 0.5rem;">
+                                <div class="arch-welcome-node arch-node-srv">Auth Service</div>
+                                <div class="arch-welcome-node arch-node-srv">Billing Service</div>
+                            </div>
+                            <!-- DB Layer -->
+                            <div class="arch-welcome-layer">
+                                <div class="arch-welcome-node arch-node-db">SQL Database</div>
                             </div>
                         </div>
                     </div>
