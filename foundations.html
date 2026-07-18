@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Entity-Communication Paradigm (ECP) - Developer Induction</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="presentation-container">
+        <header style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div class="logo">
+                <img src="logo.webp" alt="eGeoSpace Logo">
+                <span>eGeoSpace ECP (Part 1: Foundations)</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <a href="index.html" class="nav-btn" style="text-decoration: none; padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 600; background: rgba(255,255,255,0.05);">➜ Home Portal</a>
+                <a href="semantics.html" class="nav-btn" style="text-decoration: none; padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 600;">Part 2: Semantics ➜</a>
+                <a href="architecture.html" class="nav-btn" style="text-decoration: none; padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 600;">Part 3: Architectures ➜</a>
+                <a href="patterns.html" class="nav-btn" style="text-decoration: none; padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 600;">Part 4: Patterns ➜</a>
+            </div>
+        </header>
+
+        <!-- Slides Wrapper -->
+        <main class="slides-wrapper">
+            <!-- Slide 1: Welcome / Title -->
+            <section class="slide active" id="slide-1">
+                <div class="glass-card welcome-grid">
+                    <div>
+                        <h3>EGEOSPACE ENGINEERING</h3>
+                        <h1>The Entity-Communication Paradigm</h1>
+                        <p>Welcome! ECP is core engineering blueprint. It is a simple, unified way to design and understand how software services, databases, and human teams coordinate to build reliable applications.</p>
+                    </div>
+                    <div class="welcome-decor">
+                        <div class="ecp-network">
+                            <!-- Entity 1 -->
+                            <div class="net-entity" id="net-ent-1">
+                                <span class="net-title">Entity 1</span>
+                                <div class="net-sub">Abilities &<br>Knowledge</div>
+                                <div class="net-boundary" title="Interface Boundary"></div>
+                            </div>
+                            <!-- Connection channel -->
+                            <div class="net-channel">
+                                <div class="net-packet"></div>
+                                <div class="net-channel-label">Communication</div>
+                            </div>
+                            <!-- Entity 2 -->
+                            <div class="net-entity" id="net-ent-2">
+                                <span class="net-title">Entity 2</span>
+                                <div class="net-sub">Abilities &<br>Knowledge</div>
+                                <div class="net-boundary" title="Interface Boundary"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 2: The Challenge of Modern Apps -->
+            <section class="slide" id="slide-2">
+                <div class="glass-card">
+                    <h3>THE MODERN CONUNDRUM</h3>
+                    <h2>Why Web Apps Are Complex</h2>
+                    <p>Building web applications today is no longer just about writing code for a single server. Modern applications are dynamic networks consisting of:</p>
+                    <div class="grid-3" style="margin-top: 1rem;">
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.5rem; padding: 1.25rem;">
+                            <h4 style="color: var(--accent-purple);">Distributed Code</h4>
+                            <p style="font-size: 0.85rem;">Front-end React modules, back-end microservices, third-party APIs (Stripe, Twilio), and databases running in the cloud.</p>
+                        </div>
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.5rem; padding: 1.25rem;">
+                            <h4 style="color: var(--accent-blue);">Socio-Technical Flow</h4>
+                            <p style="font-size: 0.85rem;">The app doesn't run in a vacuum. It depends on human users making purchases, support staff approving refunds, and admin roles.</p>
+                        </div>
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.5rem; padding: 1.25rem;">
+                            <h4 style="color: var(--accent-cyan);">The Problem</h4>
+                            <p style="font-size: 0.85rem;">We use different tools to describe different pieces. This fragmentation makes it hard to see the big picture and prevent security leaks.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 3: The Old Way and Its Problems -->
+            <section class="slide" id="slide-3">
+                <div class="glass-card">
+                    <h3>HISTORICAL LESSONS</h3>
+                    <h2>What We Used Before & Where We Got Stuck</h2>
+                    <p>Previously, system architectures suffered from critical, real-world vulnerabilities:</p>
+                    <ul class="bullet-list" style="margin-top: 0.5rem;">
+                        <li class="bullet-item">
+                            <div class="bullet-icon">1</div>
+                            <div class="bullet-content">
+                                <h4>Monoliths & Tightly Coupled Code</h4>
+                                <p><strong>Problem:</strong> Code modules could directly access each other's internal variables. If someone wrote bad database queries in the reporting module, it crashed the entire site, including checkout.</p>
+                            </div>
+                        </li>
+                        <li class="bullet-item">
+                            <div class="bullet-icon">2</div>
+                            <div class="bullet-content">
+                                <h4>Microservices Without Guardrails</h4>
+                                <p><strong>Problem:</strong> Services were separated, but boundaries were weak. A microservice might expose an API without verifying auth details, allowing unauthorized access from other nodes.</p>
+                            </div>
+                        </li>
+                        <li class="bullet-item">
+                            <div class="bullet-icon">3</div>
+                            <div class="bullet-content">
+                                <h4>Neglecting Human Actors</h4>
+                                <p><strong>Problem:</strong> Traditional models only defined software protocols. Human steps—like a manager approving a high-value checkout—were treated as external "triggers" rather than core parts of the flow.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 4: The ECP Solution (Simplifying Complexity) -->
+            <section class="slide" id="slide-4">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>OUR BLUEPRINT</h3>
+                        <h2>The ECP Solution</h2>
+                        <p>The **Entity-Communication Paradigm (ECP)** solves these problems by treating everything in the system under a single, unified rule:</p>
+                        <p style="margin-top: 1rem; font-size: 0.95rem; line-height: 1.5;">Every component in our system—whether it is a React button, a payment microservice, a database, or a human administrator—is modeled as an **Entity**.</p>
+                        <p style="margin-top: 1rem; font-size: 0.95rem; line-height: 1.5;">Entities are completely isolated. They can *never* directly tamper with each other's internal data. They can only coordinate by sending **Communication Messages** through regulated channels.</p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.15); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center;">
+                        <h4 style="color: var(--accent-cyan); font-family: var(--font-heading); margin-bottom: 0.75rem;">Why is this helpful?</h4>
+                        <ul style="padding-left: 1.25rem; font-size: 0.88rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.75rem;">
+                            <li><strong>Isolation:</strong> A bug in one Entity cannot silently corrupt another.</li>
+                            <li><strong>Security:</strong> All interaction points are locked by default.</li>
+                            <li><strong>Traceability:</strong> Since communication is explicit, we can trace every single message flow.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: The Three Perspectives of ECP -->
+            <section class="slide" id="slide-5">
+                <div class="glass-card">
+                    <h3>SYSTEM VIEWPOINTS</h3>
+                    <h2>The Three Perspectives of ECP</h2>
+                    <p>ECP is analyzed through three complementary layers of formalization. No single view is sufficient; together they provide a complete picture:</p>
+                    <div class="tabs-container" style="margin-top: 1rem;">
+                        <div class="tabs-headers" style="flex-wrap: wrap; gap: 0.5rem;">
+                            <button class="tab-btn active" data-tab="tab-view-tuple">1. The Tuple Perspective (Definitional)</button>
+                            <button class="tab-btn" data-tab="tab-view-graph">2. The Graph-Theoretic Perspective (Relational)</button>
+                            <button class="tab-btn" data-tab="tab-view-sim">3. The Simulation Perspective (Emergent)</button>
+                        </div>
+                        <div class="tab-content active" id="tab-view-tuple">
+                            <h4 style="color: var(--accent-purple); margin-bottom: 0.5rem;">The Definitional Core: Entity Tuple</h4>
+                            <p>Focuses on the **internal constitution** of an Entity. Every Entity is structured as a tuple: <code>Entity = (Abilities, Knowledge, Interfaces)</code> protected by an <strong>Interface Boundary</strong>.</p>
+                            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">This perspective guarantees complete encapsulation: internal variables (Knowledge) and algorithms (Abilities) are isolated from direct external tampering.</p>
+                        </div>
+                        <div class="tab-content" id="tab-view-graph">
+                            <h4 style="color: var(--accent-blue); margin-bottom: 0.5rem;">The Relational Structure: Dependency Networks</h4>
+                            <p>Focuses on how Entities are **situated in a network**. We represent the system as a directed graph where nodes are Entities and edges are directional dependencies (Incoming/Outgoing).</p>
+                            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">This perspective allows architects to mathematically model failure domains, calculate cut sets, and verify system-wide coherence and resilience.</p>
+                        </div>
+                        <div class="tab-content" id="tab-view-sim">
+                            <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">The Dynamic Behavior: Runtime Flows</h4>
+                            <p>Focuses on **execution and message flows**. We simulate how communication packets travel across interfaces and boundaries under varying loads and latency.</p>
+                            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">This perspective reveals emergent properties of the system, such as bottlenecking, latency propagation, and cascading failure recovery.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 6: The Entity Triad (A, K, I) -->
+            <section class="slide" id="slide-6">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>THE INGREDIENTS</h3>
+                        <h2>The Entity Triad (A, K, I)</h2>
+                        <p>To keep things simple, every single Entity in our system is made of the same three components:</p>
+                        <div style="font-family: monospace; font-size: 1.25rem; color: var(--accent-purple); margin: 0.75rem 0; font-weight: bold; background: rgba(0,0,0,0.2); padding: 0.5rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
+                            Entity = (Abilities, Knowledge, Interfaces)
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--accent-cyan);">Click the nodes on the right to inspect what they mean with examples:</p>
+                        <div class="triad-info-box" id="triad-details">
+                            <h4 id="triad-detail-title" style="color: var(--accent-purple); font-family: var(--font-heading); margin-bottom: 0.25rem;">Select a Node</h4>
+                            <p id="triad-detail-desc" style="font-size: 0.9rem;">Click Abilities (A), Knowledge (K), or Interfaces (I) in the diagram on the right to learn more.</p>
+                        </div>
+                    </div>
+                    <div class="triad-container">
+                        <div class="entity-circle">
+                            <div class="entity-core">ENTITY</div>
+                            <div class="part-node node-abilities" data-node="abilities">Abilities<br><span style="font-size: 0.6rem; color: var(--accent-purple);">(A)</span></div>
+                            <div class="part-node node-knowledge" data-node="knowledge">Knowledge<br><span style="font-size: 0.6rem; color: var(--accent-purple);">(K)</span></div>
+                            <div class="part-node node-interfaces" data-node="interfaces">Interfaces<br><span style="font-size: 0.6rem; color: var(--accent-purple);">(I)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 7: Abilities & Knowledge Deep Dive -->
+            <section class="slide" id="slide-7">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>CONSTITUTIONAL ELEMENTS</h3>
+                        <h2>Abilities & Knowledge: Nature & Lifecycles</h2>
+                        <p>An Entity's internal constitution consists of two complementary elements: what it can do (Abilities) and what it knows (Knowledge).</p>
+                        <div class="tabs-container" style="margin-top: 0.75rem;">
+                            <div class="tabs-headers">
+                                <button class="tab-btn active" data-tab="tab-triad-abilities">Abilities (A)</button>
+                                <button class="tab-btn" data-tab="tab-triad-knowledge">Knowledge (K)</button>
+                            </div>
+                            <div class="tab-content active" id="tab-triad-abilities">
+                                <h4 style="color: var(--accent-purple); margin-bottom: 0.25rem;">Dispositional Properties of Action</h4>
+                                <p style="font-size: 0.9rem;">Potential actions or state transformations possible within an environment. They define <em>what can be done</em> without implying when, how, or by whom.</p>
+                                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--accent-cyan);"><strong>Counterexample:</strong> A passive code library or function that cannot be independently executed or regulated is NOT an ECP Ability.</p>
+                            </div>
+                            <div class="tab-content" id="tab-triad-knowledge">
+                                <h4 style="color: var(--accent-blue); margin-bottom: 0.25rem;">Informational Resources</h4>
+                                <p style="font-size: 0.9rem;">Internal state, data sets, or rules that condition, constrain, or enable the execution of Abilities. Knowledge is strictly private to its Entity.</p>
+                                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--accent-cyan);"><strong>Counterexample:</strong> A shared global database or public constant that any component can modify without boundary checks is NOT ECP Knowledge.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.15); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center; gap: 0.75rem;">
+                        <h4 style="color: var(--text-primary); font-family: var(--font-heading); font-size: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.25rem;">Why is this distinction critical?</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">By separating action (Abilities) from state (Knowledge), we prevent common coupling bugs. A service cannot directly query or update another service's database (Knowledge) — it must request the service to execute an Ability via its exposed interface.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: The Interface Boundary (The Gatekeeper) -->
+            <section class="slide" id="slide-8">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>THE BOUNCER</h3>
+                        <h2>The Interface Boundary</h2>
+                        <p>Exposing an **Interface** (e.g., a public function or API URL) is like putting a door on your house. By itself, it allows entry.</p>
+                        <p style="margin-top: 1rem; font-size: 0.95rem;">The **Interface Boundary** is the lock and bouncer on that door. It dynamically inspects every incoming message to verify permissions, rate-limit abuse, and validate data.</p>
+                        <div class="control-panel">
+                            <div class="toggle-container">
+                                <span style="font-weight: 600; font-size: 0.9rem;">Interface Boundary Protection:</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="boundary-toggle" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <span id="boundary-status" style="font-size: 0.9rem; font-weight: 600; color: var(--accent-green);">ACTIVE (SECURED)</span>
+                        </div>
+                    </div>
+                    <div class="triad-container">
+                        <!-- Visual indicator showing boundary ring shielding core -->
+                        <div class="boundary-ring active" id="boundary-visual-ring"></div>
+                        <div class="entity-circle" id="boundary-entity-circle" style="border-style: solid;">
+                            <div class="entity-core" id="boundary-core" style="border-color: var(--accent-green); box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);">SECURE</div>
+                            <div class="part-node node-abilities" style="opacity: 0.3; cursor: not-allowed; border-color: var(--border-color);">Abilities</div>
+                            <div class="part-node node-knowledge" style="opacity: 0.3; cursor: not-allowed; border-color: var(--border-color);">Knowledge</div>
+                            <!-- Boundary exposed interface point -->
+                            <div class="part-node node-interfaces" style="border-color: var(--accent-green); color: var(--accent-green); box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);">Exposed API</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 9: Entity Types, Instances & Granularity -->
+            <section class="slide" id="slide-9">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>SCALING & DECOMPOSITION</h3>
+                        <h2>Types, Instances & Granularity</h2>
+                        <p>Entities exist at different levels of abstraction and granularity to allow clean system decomposition:</p>
+                        <ul class="bullet-list" style="margin-top: 1rem; font-size: 0.9rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">⚙</div>
+                                <div class="bullet-content">
+                                    <strong>Entity Type vs Instance</strong>
+                                    <p>An <strong>Entity Type</strong> is the abstract design-time schema defining Abilities, Knowledge, and Interfaces. An <strong>Entity Instance</strong> is a live runtime instantiation executing in memory.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">🧱</div>
+                                <div class="bullet-content">
+                                    <strong>Atomic Entities</strong>
+                                    <p>Minimal system participants that cannot be decomposed further without losing their systemic role (e.g., an email validation function).</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.15); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center; gap: 0.5rem;">
+                        <h4 style="color: var(--accent-cyan); font-family: var(--font-heading); font-size: 1rem;">Composite Entities (Composition)</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45;">Higher-level participants made of multiple sub-Entities. For example, a <strong>Payment Service</strong> is a Composite Entity consisting of sub-entities for validation, fraud check, and ledger writing.</p>
+                        <div style="background: rgba(0,0,0,0.25); border: 1px dashed var(--accent-blue); padding: 0.75rem; border-radius: 8px; font-size: 0.8rem; margin-top: 0.5rem; text-align: center;">
+                            <span style="color: var(--text-primary); font-weight: 600;">Composite Entity Boundary</span>
+                            <div style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 0.25rem;">
+                                <div style="background: rgba(168, 85, 247, 0.2); border: 1px solid var(--accent-purple); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem;">Sub-Entity A</div>
+                                <div style="background: rgba(168, 85, 247, 0.2); border: 1px solid var(--accent-purple); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem;">Sub-Entity B</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 10: Real-world Analogy (The Restaurant) -->
+            <section class="slide" id="slide-10">
+                <div class="glass-card">
+                    <h3>AN EASY ANALOGY</h3>
+                    <h2>The Restaurant Analogy</h2>
+                    <p>To connect these concepts, think of how a busy restaurant operates using ECP principles:</p>
+                    <div class="grid-3" style="margin-top: 1rem;">
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1.25rem;">
+                            <h4 style="color: var(--accent-purple);">The Customer Entity</h4>
+                            <p style="font-size: 0.85rem; line-height: 1.4;">A human participant. Exposes an Interface (placing orders). Retains Knowledge (what they want to eat, their budget).</p>
+                        </div>
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1.25rem;">
+                            <h4 style="color: var(--accent-blue);">The Waiter Entity</h4>
+                            <p style="font-size: 0.85rem; line-height: 1.4;">The communicator. Has the Ability to take orders. Exposes the Menu as an Interface to Customers.</p>
+                        </div>
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1.25rem;">
+                            <h4 style="color: var(--accent-cyan);">The Kitchen Entity</h4>
+                            <p style="font-size: 0.85rem; line-height: 1.4;">The worker. Has the Ability to cook food. Retains Knowledge (secret recipes) and exposes a counter to receive orders.</p>
+                        </div>
+                    </div>
+                    <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid var(--accent-green); padding: 1rem; border-radius: 10px; margin-top: 1rem; font-size: 0.9rem;">
+                        <strong>Interface Boundary in Action:</strong> The Customer *cannot* walk directly into the kitchen, open the fridge, and cook their own meal (bypassing Interface Boundaries). They must submit their request to the Waiter through the Menu interface. The Kitchen Counter acts as an Interface Boundary, verifying the ticket order is valid before cooking.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 11: Relational Identity & Dependency Graphs -->
+            <section class="slide" id="slide-11">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>WHO ARE YOU?</h3>
+                        <h2>Relational Identity & Dependency Graphs</h2>
+                        <p>In traditional coding, components are defined statically by their source code. In ECP, **Identity is Relational**—an Entity is defined by how it behaves and affects others.</p>
+                        <p style="margin-top: 1rem; font-size: 0.95rem;">If a service fails or loses its connection to the database, its capability changes. It is no longer a "Functional Billing Service"—its relational status is "Offline/Unusable". This structural mapping represents the <strong>Graph-Theoretic Perspective</strong>.</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">Click on the nodes on the right to simulate dependency flow highlights:</p>
+                    </div>
+                    <div class="dep-visualizer">
+                        <div class="dep-row">
+                            <div class="dep-entity" id="dep-user" data-entity="user">User Entity</div>
+                            <div class="dep-arrow active" id="arrow-1"></div>
+                            <div class="dep-entity" id="dep-service" data-entity="service">Billing Service</div>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); text-align: center;" id="dep-summary">
+                            Click nodes to simulate dependency directionality.
+                        </div>
+                        <div class="dep-row">
+                            <div class="dep-entity" id="dep-service2" data-entity="service">Billing Service</div>
+                            <div class="dep-arrow" id="arrow-2"></div>
+                            <div class="dep-entity" id="dep-db" data-entity="db">Database Node</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 12: Communication & Message Flows -->
+            <section class="slide" id="slide-12">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>THE MEDIUM OF INTERACTION</h3>
+                        <h2>Communication & Message Flows</h2>
+                        <p>Entities cannot share memory or variables. They coordinate solely by transmitting explicit, asynchronous **Communication Messages** through interfaces. This is the <strong>Simulation Perspective</strong>.</p>
+                        <ul class="bullet-list" style="margin-top: 0.75rem; font-size: 0.85rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">💬</div>
+                                <div class="bullet-content">
+                                    <strong>Communication as a Semantic Act</strong>
+                                    <p>Messages are not just bytes; they carry intent, obligations, and consequences that invoke Abilities and query Knowledge.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">🤝</div>
+                                <div class="bullet-content">
+                                    <strong>Shared Semantics</strong>
+                                    <p>Stabilized via standard formats (APIs, schemas, contracts) so Entities interpret messages in consistent ways.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.15); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center; gap: 0.75rem;">
+                        <h4 style="color: var(--accent-cyan); font-family: var(--font-heading); font-size: 0.95rem; text-align: center;">Anatomy of ECP Communication</h4>
+                        <div style="font-family: monospace; font-size: 0.75rem; color: var(--text-secondary); background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.4rem;">
+                            <div>1. Sender Entity -> Sends message envelope</div>
+                            <div style="color: var(--accent-purple);">&nbsp;&nbsp;&nbsp;&nbsp;{ sender: "User", target: "Billing" }</div>
+                            <div>2. Receiver Interface Boundary -> Inspects</div>
+                            <div style="color: var(--accent-green);">&nbsp;&nbsp;&nbsp;&nbsp;[Boundary Check: Valid Token?]</div>
+                            <div>3. Target Entity -> Invokes internal Ability</div>
+                            <div style="color: var(--accent-blue);">&nbsp;&nbsp;&nbsp;&nbsp;execute chargeCard(amount)</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 13: Systemic Qualities -->
+            <section class="slide" id="slide-13">
+                <div class="glass-card">
+                    <h3>EMERGING PHENOMENA</h3>
+                    <h2>Systemic Qualities: Second-Order Effects</h2>
+                    <p>Systemic Qualities cannot be located in any single Entity. They are emergent, relational properties that arise from the communication patterns and dependencies of the entire system:</p>
+                    <div class="grid-3" style="margin-top: 1rem; gap: 1rem;">
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1rem;">
+                            <h4 style="color: var(--accent-purple); font-size: 0.95rem;">1. Resilience & Trust</h4>
+                            <p style="font-size: 0.8rem; line-height: 1.4; color: var(--text-secondary);">How the system absorbs disruptions (uptime, recovery time). Trust emerges when boundaries guarantee that Entities only interact in validated, secure ways.</p>
+                        </div>
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1rem;">
+                            <h4 style="color: var(--accent-blue); font-size: 0.95rem;">2. Coherence & Adaptability</h4>
+                            <p style="font-size: 0.8rem; line-height: 1.4; color: var(--text-secondary);">Coherence ensures all Entities share semantic alignment and run towards a unified systemic goal. Adaptability is the capacity to elasticize scale and route around failures.</p>
+                        </div>
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1rem;">
+                            <h4 style="color: var(--accent-cyan); font-size: 0.95rem;">3. Interdependence & Trade-offs</h4>
+                            <p style="font-size: 0.8rem; line-height: 1.4; color: var(--text-secondary);">System design is a trade-off. Enhancing security (strict Interface Boundaries) increases trust but might add latency, impacting efficiency. Scalability can decrease resilience if redundancy is cut.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 14: Special Entities -->
+            <section class="slide" id="slide-14">
+                <div class="glass-card">
+                    <h3>PLATFORMS & EXTERNALITIES</h3>
+                    <h2>Special Entities: Primordial & External</h2>
+                    <p>To make writing systems easier, ECP categorizes Entities into three distinct groups depending on where they come from:</p>
+                    <div class="grid-3" style="margin-top: 1rem;">
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1.25rem;">
+                            <h4 style="color: var(--accent-purple);">1. Custom Entities</h4>
+                            <p style="font-size: 0.85rem; line-height: 1.4;">Entities that **we write ourselves** as part of our product logic.<br><br><strong>Examples:</strong> Checkout logic, Shopping Cart service, User Preferences recorder.</p>
+                        </div>
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1.25rem;">
+                            <h4 style="color: var(--accent-blue);">2. Primordial Entities</h4>
+                            <p style="font-size: 0.85rem; line-height: 1.4;">The **foundation we get for free** from the execution runtime environment to bootstrap our code.<br><br><strong>Examples:</strong> The browser 'window' object, the Node.js runtime, OS kernel threads.</p>
+                        </div>
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1.25rem;">
+                            <h4 style="color: var(--accent-cyan);">3. External Entities</h4>
+                            <p style="font-size: 0.85rem; line-height: 1.4;">Systems **outside our control** that we must communicate with via secure proxy wrappers.<br><br><strong>Examples:</strong> Stripe Payment API, SendGrid Email engine, SMS gateways.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 15: Human and Organizational Entities -->
+            <section class="slide" id="slide-15">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>SOCIO-TECHNICAL DESIGN</h3>
+                        <h2>Modeling Human & Team Actors</h2>
+                        <p>Most frameworks ignore people. ECP treats **Humans** and **Teams** as first-class Entities. They possess their own Abilities, Knowledge, and Interfaces:</p>
+                        <ul class="bullet-list" style="margin-top: 1rem; font-size: 0.9rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">👤</div>
+                                <div class="bullet-content">
+                                    <strong>Human Entities (Users/Agents):</strong>
+                                    <p>Abilities (approving audits, requesting refunds), Knowledge (passwords, user intent), Interfaces (dashboard forms).</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">👥</div>
+                                <div class="bullet-content">
+                                    <strong>Organizational Entities (Teams):</strong>
+                                    <p>Abilities (resource allocations), Knowledge (legal/financial policies), Interfaces (business contracts).</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.15); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center;">
+                        <h4 style="color: var(--accent-cyan); font-family: var(--font-heading); margin-bottom: 0.5rem;">Why model humans as Entities?</h4>
+                        <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text-secondary);">Because it lets us verify **entire business workflows**. We can trace a process from the human customer clicking a button, through microservices, up to a manager approving the audit. Everything is part of the same unified graph!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 16: OOP vs ECP -->
+            <section class="slide" id="slide-16">
+                <div class="glass-card">
+                    <h3>OOP VS ECP</h3>
+                    <h2>What's the Difference?</h2>
+                    <p>You might be wondering: *How does ECP differ from Object-Oriented Programming (OOP) objects?*</p>
+                    <div class="tabs-container" style="margin-top: 1rem;">
+                        <div class="tabs-headers" style="flex-wrap: wrap; gap: 0.5rem;">
+                            <button class="tab-btn active" data-tab="tab-oop-identity">Identity</button>
+                            <button class="tab-btn" data-tab="tab-oop-security">Encapsulation & Security</button>
+                            <button class="tab-btn" data-tab="tab-oop-coherence">Systemic Coherence</button>
+                            <button class="tab-btn" data-tab="tab-oop-scope">System Scope</button>
+                            <button class="tab-btn" data-tab="tab-oop-autonomy">Autonomy & Coupling</button>
+                        </div>
+                        <div class="tab-content active" id="tab-oop-identity">
+                            <h4 style="color: var(--accent-purple); margin-bottom: 0.5rem;">1. Concept of Identity</h4>
+                            <p><strong>OOP:</strong> Identity is static. An object is defined by its class, variables, and methods inside the code file.</p>
+                            <p style="margin-top: 0.5rem;"><strong>ECP:</strong> Identity is relational and dynamic. An Entity is defined by how it is connected in the dependency network and the active effects it produces for others at runtime.</p>
+                        </div>
+                        <div class="tab-content" id="tab-oop-security">
+                            <h4 style="color: var(--accent-blue); margin-bottom: 0.5rem;">2. Encapsulation & Security</h4>
+                            <p><strong>OOP:</strong> Encapsulation is enforced by compiler flags or visibility modifiers (public, private) which are static and easily bypassed (e.g. by package scope, reflection, or direct imports).</p>
+                            <p style="margin-top: 0.5rem;"><strong>ECP:</strong> Encapsulation is active. Every interface must carry an active Interface Boundary function (authorization, input cleaning) that dynamically inspects requests at runtime.</p>
+                        </div>
+                        <div class="tab-content" id="tab-oop-coherence">
+                            <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">3. Systemic Coherence</h4>
+                            <p><strong>OOP:</strong> Relies on local class-level cohesion. Whole-system reliability and coherence are informal considerations left to manual architecture reviews.</p>
+                            <p style="margin-top: 0.5rem;"><strong>ECP:</strong> Coherence is formal. The paradigm leverages graph-theoretic patterns (cut sets, dependency flow) to mathematically model and verify failure domains and system health as a whole.</p>
+                        </div>
+                        <div class="tab-content" id="tab-oop-scope">
+                            <h4 style="color: var(--accent-purple); margin-bottom: 0.5rem;">4. System Scope</h4>
+                            <p><strong>OOP:</strong> Designed to model and structure computer code running inside a single program memory. It has no native way to encapsulate databases, networks, or human actions.</p>
+                            <p style="margin-top: 0.5rem;"><strong>ECP:</strong> Designed to unify everything. Technical services, database states, and socio-technical actors (human users, support staff, external teams) are all represented as Entities in the same network.</p>
+                        </div>
+                        <div class="tab-content" id="tab-oop-autonomy">
+                            <h4 style="color: var(--accent-blue); margin-bottom: 0.5rem;">5. Autonomy & Coupling</h4>
+                            <p><strong>OOP:</strong> Objects share execution threads and call each other's methods directly. A slow running method in one object blocks the caller, creating tight coupling and fragile call stacks.</p>
+                            <p style="margin-top: 0.5rem;"><strong>ECP:</strong> Entities are completely autonomous and run in isolated execution scopes. They can only communicate via explicit, asynchronous message channels, preventing cascading thread blocks.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 17: Checkout Case Study -->
+            <section class="slide" id="slide-17">
+                <div class="glass-card">
+                    <h3>PRACTICAL CASE STUDY</h3>
+                    <h2>Simulating a Cloud Checkout</h2>
+                    <p>Select steps below to simulate a checkout. Note how separate Entities communicate, and how Interface Boundaries secure the flow:</p>
+                    <div class="checkout-simulator">
+                        <div class="sim-steps">
+                            <button class="sim-step-btn active" id="sim-btn-1">1. User Places Order</button>
+                            <button class="sim-step-btn" id="sim-btn-2">2. API Gateway Authorization</button>
+                            <button class="sim-step-btn" id="sim-btn-3">3. Verify & Reserve Stock</button>
+                            <button class="sim-step-btn" id="sim-btn-4">4. Charge Credit Card</button>
+                            <button class="sim-step-btn" id="sim-btn-5">5. Central Logging Trace</button>
+                        </div>
+                        <div class="sim-display" id="sim-log-display">
+                            <div class="sim-log-line" style="color: var(--text-secondary); font-style: italic;">Select step 1 to begin checkout simulation...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 18: Developer Guidelines -->
+            <section class="slide" id="slide-18">
+                <div class="glass-card">
+                    <h3>RULES OF THUMB</h3>
+                    <h2>ECP Developer Guidelines</h2>
+                    <p>When writing software or designing system workflows, keep these rules in mind:</p>
+                    <div class="grid-2" style="margin-top: 1rem;">
+                        <ul class="bullet-list" style="font-size: 0.9rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">✔</div>
+                                <div class="bullet-content">
+                                    <strong>Put a Lock on Every Door</strong>
+                                    <p>Never expose a raw interface (API or function) without an active Interface Boundary (validation and auth check) protecting it.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">✔</div>
+                                <div class="bullet-content">
+                                    <strong>Private Data is Private</strong>
+                                    <p>Entities must never share databases. An Entity can only get data (Knowledge) by requesting it through another Entity's Interface.</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="bullet-list" style="font-size: 0.9rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">✔</div>
+                                <div class="bullet-content">
+                                    <strong>Model Human steps</strong>
+                                    <p>If a human must approve a transaction, do not hide it. Create a Human Entity block in the code design diagram.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">✔</div>
+                                <div class="bullet-content">
+                                    <strong>Design for Redundancy</strong>
+                                    <p>Create multiple pathways. If an Entity fails, make sure another relationally equivalent Entity can step in and take over.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 19: Core Takeaways -->
+            <section class="slide" id="slide-19">
+                <div class="glass-card">
+                    <h3>INDUCTION COMPLETE</h3>
+                    <h2>ECP Summary: Core Takeaways</h2>
+                    <p>Let's recap the fundamental rules of the Entity-Communication Paradigm:</p>
+                    <div class="grid-2" style="margin-top: 1rem; gap: 2rem;">
+                        <ul class="bullet-list" style="font-size: 0.95rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">1</div>
+                                <div class="bullet-content">
+                                    <strong>Entities are Bounded</strong>
+                                    <p>Everything in the system—code, databases, and humans—is modeled as a self-governing Entity protecting its variables.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">2</div>
+                                <div class="bullet-content">
+                                    <strong>Active Interface Boundaries</strong>
+                                    <p>Interfaces define what is possible, while Boundaries act as strict gatekeepers checking tokens and request inputs.</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="bullet-list" style="font-size: 0.95rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">3</div>
+                                <div class="bullet-content">
+                                    <strong>Relational Identity</strong>
+                                    <p>An Entity's identity emerges from its position in the dependency network and the active effects it creates.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">4</div>
+                                <div class="bullet-content">
+                                    <strong>Emergent Qualities</strong>
+                                    <p>Resilience, scalability, and trust are not located in one class or server, but arise from communication patterns.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 20: Thank You -->
+            <section class="slide" id="slide-20">
+                <div class="glass-card" style="text-align: center; justify-content: center; align-items: center; gap: 2rem; min-height: 380px;">
+                    <div class="glow-text" style="font-family: var(--font-heading); font-weight: 800; font-size: 4rem; background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(168, 85, 247, 0.15);">
+                        Thank You!
+                    </div>
+                    <div style="max-width: 600px;">
+                        <h3 style="color: var(--text-primary); margin-bottom: 0.5rem; font-size: 1.5rem;">Let's Build Resilient Systems Together</h3>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer / Navigation Controls -->
+        <footer>
+            <div class="slide-num" id="slide-number-display">Slide 1 of 20</div>
+            <div class="progress-container" id="progress-dots-container">
+                <!-- Dots will be generated here -->
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" disabled>PREV</button>
+                <button class="nav-btn" id="next-btn">NEXT</button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
