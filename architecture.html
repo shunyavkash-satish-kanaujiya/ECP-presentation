@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECP in Modern Architectures - Presentation</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific CSS rules for Architecture presentation */
+        .arch-switcher {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .arch-visual-box {
+            background: rgba(0,0,0,0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            min-height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .visual-element {
+            border: 2px solid var(--border-color);
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+        .visual-connector {
+            position: absolute;
+            height: 2px;
+            background: rgba(255,255,255,0.15);
+            transition: all 0.3s ease;
+        }
+        .visual-connector.dashed {
+            border-top: 2px dashed rgba(255,255,255,0.2);
+            background: none;
+            height: 0;
+        }
+        /* Topologies simulator styling */
+        .topology-playground {
+            background: rgba(0,0,0,0.2);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .topo-graph-container {
+            position: relative;
+            height: 180px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .topo-node {
+            position: absolute;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.6rem;
+            font-weight: bold;
+            border: 2px solid var(--border-color);
+            background: var(--bg-card);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 8px rgba(0,0,0,0.5);
+            cursor: pointer;
+            z-index: 2;
+            text-align: center;
+        }
+        .topo-node.failed {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--accent-red);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+            color: var(--accent-red);
+        }
+        .topo-node.affected {
+            border-color: rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.05);
+            color: rgba(255,255,255,0.3);
+            text-decoration: line-through;
+        }
+        .topo-line {
+            position: absolute;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            transform-origin: left center;
+            z-index: 1;
+        }
+        .topo-line.failed {
+            background: rgba(239, 68, 68, 0.2);
+            border-top: 2px dashed rgba(239, 68, 68, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div id="presentation-container">
+        <!-- Header -->
+        <header style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div class="logo">
+                <img src="logo.webp" alt="eGeoSpace Logo">
+                <span>eGeoSpace ECP (Part 3: Architectures)</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <a href="semantics.html" class="nav-btn" style="text-decoration: none; padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 600;">➜ Part 2: Semantics</a>
+                <a href="index.html" class="nav-btn" style="text-decoration: none; padding: 0.4rem 0.8rem; font-size: 0.8rem; font-weight: 600;">➜ Part 1: Foundations</a>
+            </div>
+        </header>
+
+        <main class="slides-wrapper">
+            <!-- Slide 1: Welcome / Title -->
+            <section class="slide active" id="slide-1">
+                <div class="glass-card welcome-grid">
+                    <div>
+                        <h3>ECP CURRICULUM: PART 3</h3>
+                        <h1>ECP in Modern Architectures</h1>
+                        <p>Welcome! This presentation covers Chapters 5 & 6: mapping ECP constructs to real-world architectures (monoliths, microservices, serverless, and event-driven systems) and operational deployment topologies.</p>
+                    </div>
+                    <div class="welcome-decor">
+                        <div class="ecp-network">
+                            <div class="net-entity" id="net-ent-1">
+                                <span class="net-title">Architecture</span>
+                                <div class="net-sub">Monolith vs<br>Microservice</div>
+                                <div class="net-boundary" title="Interface Boundary"></div>
+                            </div>
+                            <div class="net-channel">
+                                <div class="net-packet"></div>
+                                <div class="net-channel-label" style="color: var(--accent-cyan);">Execution</div>
+                            </div>
+                            <div class="net-entity" id="net-ent-2">
+                                <span class="net-title">Deployment</span>
+                                <div class="net-sub">Containers &<br>Orchestration</div>
+                                <div class="net-boundary" title="Interface Boundary"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 2: Mapping ECP to Common Patterns -->
+            <section class="slide" id="slide-2">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>ARCHITECTURAL BLUEPRINTS</h3>
+                        <h2>ECP Across Architectural Patterns</h2>
+                        <p>Architectures differ not in their basic components, but in how they partition and boundary their Entities:</p>
+                        <ul class="bullet-list" style="margin-top: 1rem; font-size: 0.9rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">🏛</div>
+                                <div class="bullet-content">
+                                    <strong>Monoliths & Layers</strong>
+                                    <p>A single coarse-grained Entity. Weak internal boundaries allow modules to bypass Interfaces, sharing memory and variables directly.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">🧱</div>
+                                <div class="bullet-content">
+                                    <strong>Microservices & SOA</strong>
+                                    <p>Fine-grained, independently deployable Entities. Scoped databases (Knowledge) and API gateways (Interface Boundaries) enforce strict encapsulation.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">⚡</div>
+                                <div class="bullet-content">
+                                    <strong>Serverless & Event-Driven</strong>
+                                    <p>Ephemeral, event-triggered Entities (functions) executing atomic Abilities. Knowledge is externalized in databases.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.15); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center; gap: 0.75rem;">
+                        <h4 style="color: var(--accent-cyan); font-family: var(--font-heading); font-size: 1rem;">Systemic Focus</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">No pattern is perfect. Monoliths prioritize coherence but suffer in resilience. Microservices prioritize resilience but introduce coordination complexity. Serverless offers extreme scalability but increases vendor dependence.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 3: The Architectural Matrix (Interactive) -->
+            <section class="slide" id="slide-3">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>POV EXPLORER</h3>
+                        <h2>Visualizing ECP Configurations</h2>
+                        <p>Select an architectural pattern below to view how Entities, Knowledge, and boundaries are structured in the runtime layout:</p>
+                        <div class="arch-switcher" style="margin-top: 1rem;">
+                            <button class="sim-step-btn active" id="btn-arch-mono">Monolith</button>
+                            <button class="sim-step-btn" id="btn-arch-micro">Microservice</button>
+                            <button class="sim-step-btn" id="btn-arch-serverless">Serverless</button>
+                        </div>
+                        <div class="triad-info-box" id="arch-details" style="min-height: 100px; margin-top: 0.5rem;">
+                            <h4 id="arch-detail-title" style="color: var(--accent-purple); margin-bottom: 0.25rem;">Monolith Layout</h4>
+                            <p id="arch-detail-desc" style="font-size: 0.85rem;">One single large Entity. Internal modules directly share database tables (Knowledge) without any security gatekeepers.</p>
+                        </div>
+                    </div>
+                    <div class="arch-visual-box" id="arch-visual-container">
+                        <!-- Visual elements injected here via script -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: Interface Contracts & Protocols -->
+            <section class="slide" id="slide-4">
+                <div class="glass-card">
+                    <h3>TECHNICAL ENFORCEMENT</h3>
+                    <h2>Interface Contracts & Security Protocols</h2>
+                    <p>In practice, the boundary separating potential access (Interface) and regulated exposure (Interface Boundary) is built using standard protocols:</p>
+                    <div class="grid-3" style="margin-top: 1rem; gap: 1rem;">
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1.25rem;">
+                            <h4 style="color: var(--accent-purple);">Formal Contracts</h4>
+                            <p style="font-size: 0.8rem; line-height: 1.4; color: var(--text-secondary);">Declared using machine-readable schemas like OpenAPI/Swagger, WSDL, or gRPC Protobuf. They define standard request/response structures.</p>
+                        </div>
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1.25rem;">
+                            <h4 style="color: var(--accent-blue);">Runtime Gatekeepers</h4>
+                            <p style="font-size: 0.8rem; line-height: 1.4; color: var(--text-secondary);">Enforced via API Gateways, reverse proxies, or middleware routing filters checking auth scopes, rate-limiting, and validation constraints.</p>
+                        </div>
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1.25rem;">
+                            <h4 style="color: var(--accent-cyan);">Shared Grammars</h4>
+                            <p style="font-size: 0.8rem; line-height: 1.4; color: var(--text-secondary);">Standardized serialization formats (JSON, XML) and protocols (HTTP/2, MQTT, OAuth 2.0) ensure interoperability across heterogeneous platforms.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: Knowledge Management in Practice -->
+            <section class="slide" id="slide-5">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>DATA INFRASTRUCTURES</h3>
+                        <h2>Knowledge Management in Practice</h2>
+                        <p>Knowledge is the informational substrate of our Entities. At the infrastructure level, we manage Knowledge using modern data storage patterns:</p>
+                        <ul class="bullet-list" style="margin-top: 0.75rem; font-size: 0.9rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">💾</div>
+                                <div class="bullet-content">
+                                    <strong>Persistence Layers</strong>
+                                    <p>Relational databases, Document stores, or NoSQL solutions that permanently retain Entity variables.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">⚡</div>
+                                <div class="bullet-content">
+                                    <strong>Caching & Buffers</strong>
+                                    <p>Redis/Memcached layers providing high-efficiency access to transient, non-authoritative Knowledge states.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">📜</div>
+                                <div class="bullet-content">
+                                    <strong>Event Sourcing</strong>
+                                    <p>Reconstructing Entity Knowledge states by executing sequential event logs, preserving auditing details.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.15); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center; gap: 0.75rem;">
+                        <h4 style="color: var(--accent-cyan); font-family: var(--font-heading); font-size: 1rem;">Flow Regulation</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">When Knowledge flows across boundaries, it must be filtered and cleaned. ECP uses schema validation pipelines, anonymization, and encryption algorithms at the Interface Boundary to prevent leaks while maintaining service cooperation.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 6: Deployment Topologies -->
+            <section class="slide" id="slide-6">
+                <div class="glass-card">
+                    <h3>RELATIONAL CONFIGURATION</h3>
+                    <h2>Deployment Topologies</h2>
+                    <p>Deployment topologies define how Entities are arranged in physical execution environments, shaping systemic qualities:</p>
+                    <div class="grid-3" style="margin-top: 1rem; gap: 1rem; font-size: 0.85rem;">
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1rem;">
+                            <h4 style="color: var(--accent-purple);">1. Centralized / Hub</h4>
+                            <p style="line-height: 1.4; color: var(--text-secondary);">One core API Hub manages all communications. Highly coherent but extremely fragile (single point of failure).</p>
+                        </div>
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1rem;">
+                            <h4 style="color: var(--accent-blue);">2. Federated Topologies</h4>
+                            <p style="line-height: 1.4; color: var(--text-secondary);">Semi-autonomous regional nodes coordinating via standardized contracts. Balances autonomy and whole-system coherence.</p>
+                        </div>
+                        <div class="control-panel" style="flex-direction: column; align-items: flex-start; gap: 0.4rem; padding: 1rem;">
+                            <h4 style="color: var(--accent-cyan);">3. Peer-to-Peer (P2P)</h4>
+                            <p style="line-height: 1.4; color: var(--text-secondary);">Symmetric nodes communicating directly, as in distributed ledger networks. Extremely resilient but high coordination overhead.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 7: Topology Outage Simulator -->
+            <section class="slide" id="slide-7">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>FAILURE DOMAINS</h3>
+                        <h2>Topology Outage Simulator</h2>
+                        <p>Select a deployment topology and click on any node to trigger a crash. Observe how the outage impacts the rest of the network:</p>
+                        <div style="margin-top: 1rem; display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                            <button class="sim-step-btn active" id="btn-topo-central">Centralized</button>
+                            <button class="sim-step-btn" id="btn-topo-federated">Federated</button>
+                            <button class="sim-step-btn" id="btn-topo-p2p">Peer-to-Peer</button>
+                        </div>
+                        <div class="triad-info-box" id="topo-details" style="min-height: 80px;">
+                            <h4 id="topo-detail-title" style="color: var(--accent-purple); margin-bottom: 0.25rem;">Centralized Outage</h4>
+                            <p id="topo-detail-desc" style="font-size: 0.85rem;">Click the central hub node (Hub) to crash it.</p>
+                        </div>
+                    </div>
+                    <div class="topology-playground">
+                        <div class="topo-graph-container" id="topo-sim-container">
+                            <!-- Nodes and lines injected via script -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: Containerization & Orchestration -->
+            <section class="slide" id="slide-8">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>Material instantiation</h3>
+                        <h2>Containerization & Orchestration</h2>
+                        <p>Container engines (Docker) and orchestrators (Kubernetes) translate ECP principles directly into hardware deployment patterns:</p>
+                        <ul class="bullet-list" style="margin-top: 0.75rem; font-size: 0.9rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">📦</div>
+                                <div class="bullet-content">
+                                    <strong>Containers encapsulate Entities</strong>
+                                    <p>Docker packages an Entity's code (Abilities), local config (Knowledge), and ports (Interfaces) into isolated running contexts.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">⚙</div>
+                                <div class="bullet-content">
+                                    <strong>Orchestration governs execution</strong>
+                                    <p>Kubernetes manages service routing, replica scaling (multiplicity), load balancing, and health state supervision.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.15); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center;">
+                        <h4 style="color: var(--accent-cyan); font-family: var(--font-heading); margin-bottom: 0.5rem;">Infrastructure Enforcement</h4>
+                        <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text-secondary);">By executing inside containers and service meshes, ECP's boundary isolation rules are physically enforced at the virtualization layer. Virtual machines, pods, and serverless runtimes represent real-world ECP Entity instances.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 9: Socio-Technical Integrations -->
+            <section class="slide" id="slide-9">
+                <div class="glass-card grid-2">
+                    <div>
+                        <h3>Socio-Technical Integrations</h3>
+                        <h2>Socio-Technical Architectures</h2>
+                        <p>Modern applications are socio-technical. ECP unifies technical components, human workflows, and departments into a single architectural diagram:</p>
+                        <ul class="bullet-list" style="margin-top: 0.75rem; font-size: 0.85rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">👥</div>
+                                <div class="bullet-content">
+                                    <strong>Teams as Service Providers</strong>
+                                    <p>A finance team is modeled as an Entity. It has the Ability to approve budgets, private Knowledge of spreadsheets, and exposes a contract interface to engineers.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">📜</div>
+                                <div class="bullet-content">
+                                    <strong>Policies as Interface Boundaries</strong>
+                                    <p>Legal regulations and corporate policies are not abstract ideas; they are represented as operational boundaries checking request limits.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.15); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center; gap: 0.5rem;">
+                        <h4 style="color: var(--accent-cyan); font-family: var(--font-heading); font-size: 1rem;">The Socio-Technical Graph</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45;">- Nodes represent code modules, DB schemas, or human support agents.</p>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45;">- Directed edges represent message transmissions and dependencies.</p>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45;">This ensures entire socio-technical processes can be modeled and verified together.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 10: Conclusion / Architectural Summary -->
+            <section class="slide" id="slide-10">
+                <div class="glass-card">
+                    <h3>Curriculum Summary</h3>
+                    <h2>Conclusion: ECP Architectures</h2>
+                    <p>To conclude Part 3, review these core architectural tenets:</p>
+                    <div class="grid-2" style="margin-top: 1rem; gap: 2rem;">
+                        <ul class="bullet-list" style="font-size: 0.95rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">1</div>
+                                <div class="bullet-content">
+                                    <strong>Boundaries are Physical</strong>
+                                    <p>ECP boundaries are not just concepts. In modern architectures, they are physically enforced by virtualization layers, Docker contexts, and API gateways.</p>
+                                </div>
+                            </li>
+                            <li class="bullet-item">
+                                <div class="bullet-icon">2</div>
+                                <div class="bullet-content">
+                                    <strong>Topology shapes Qualities</strong>
+                                    <p>Uptime, scaling, and fault tolerance are determined by your deployment topology (Centralized vs Federated vs P2P).</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="bullet-list" style="font-size: 0.95rem;">
+                            <li class="bullet-item">
+                                <div class="bullet-icon">3</div>
+                                <div class="bullet-content">
+                                    <strong>Model the Socio-Technical Flow</strong>
+                                    <p>Never isolate software designs from human teams. Model engineers, customers, and departments as Entities in the same network.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 11: Thank You -->
+            <section class="slide" id="slide-11">
+                <div class="glass-card" style="text-align: center; justify-content: center; align-items: center; gap: 2rem; min-height: 380px;">
+                    <div class="glow-text" style="font-family: var(--font-heading); font-weight: 800; font-size: 4.5rem; background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(168, 85, 247, 0.15);">
+                        Thank You!
+                    </div>
+                    <div style="max-width: 600px;">
+                        <h3 style="color: var(--text-primary); margin-bottom: 0.5rem; font-size: 1.5rem;">Let's Build Resilient Architecture Together</h3>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer / Navigation Controls -->
+        <footer>
+            <div class="slide-num" id="slide-number-display">Slide 1 of 11</div>
+            <div class="progress-container" id="progress-dots-container">
+                <!-- Dots will be generated here -->
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" disabled>PREV</button>
+                <button class="nav-btn" id="next-btn">NEXT</button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="architecture.js"></script>
+</body>
+</html>
