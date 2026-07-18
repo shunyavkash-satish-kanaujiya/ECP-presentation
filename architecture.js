@@ -177,8 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
             archContainer.appendChild(s2);
 
             // Connectors
-            createConnector(10, 40, 55, 15);
-            createConnector(10, 40, 55, 65);
+            createConnector(22, 48, 70, 23);
+            createConnector(22, 48, 70, 73);
 
         } else {
             archTitle.textContent = "Serverless Layout";
@@ -214,8 +214,8 @@ document.addEventListener('DOMContentLoaded', () => {
             archContainer.appendChild(db);
 
             // Connectors
-            createConnector(10, 40, 50, 40);
-            createConnector(50, 40, 85, 40, true);
+            createConnector(22, 48, 62, 48);
+            createConnector(62, 48, 92, 48, true);
         }
     }
 
