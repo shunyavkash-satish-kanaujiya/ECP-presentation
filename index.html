@@ -6,6 +6,12 @@
     <title>ECP Developer Induction Portal - Home</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* Enable scrolling on the home page portal to prevent cards from cutting off */
+        body {
+            overflow: auto !important;
+            height: auto !important;
+            min-height: 100vh;
+        }
         .portal-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -66,7 +72,7 @@
         <main style="display: flex; flex-direction: column; align-items: center; width: 100%;">
             <div style="text-align: center; margin-top: 1rem; max-width: 700px;">
                 <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.75rem; background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">The Entity-Communication Paradigm</h1>
-                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">Welcome to the Developer Induction Curriculum. Select any module below to launch the slide deck presentation and presenter speech guides.</p>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">Welcome to the Developer Induction Curriculum. Select any module below to launch the slide deck presentation.</p>
             </div>
 
             <!-- Portal Grid -->
@@ -74,7 +80,7 @@
                 <!-- Part 1 -->
                 <a href="foundations.html" class="glass-card portal-card">
                     <div>
-                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--accent-purple); letter-spacing: 1px; text-transform: uppercase;">Module 1 (Chapters 1 & 2)</span>
+                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--accent-purple); letter-spacing: 1px; text-transform: uppercase;">Module 1</span>
                         <h3 style="margin-top: 0.25rem;">Conceptual Foundations</h3>
                         <p>Learn the base constructs of ECP: the Entity Triad (Abilities, Knowledge, Interfaces), active Interface Boundaries, Relational Identity, and the 3 Perspectives of system modeling.</p>
                     </div>
@@ -86,7 +92,7 @@
                 <!-- Part 2 -->
                 <a href="semantics.html" class="glass-card portal-card">
                     <div>
-                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--accent-blue); letter-spacing: 1px; text-transform: uppercase;">Module 2 (Chapter 3)</span>
+                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--accent-blue); letter-spacing: 1px; text-transform: uppercase;">Module 2</span>
                         <h3 style="margin-top: 0.25rem;">ECP Semantics</h3>
                         <p>Explore how Entities acquire meaning through active runtime Participation rather than static Constitution. Covers roles, multiplicity, and alignment mechanisms.</p>
                     </div>
@@ -98,7 +104,7 @@
                 <!-- Part 3 -->
                 <a href="architecture.html" class="glass-card portal-card">
                     <div>
-                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--accent-cyan); letter-spacing: 1px; text-transform: uppercase;">Module 3 (Chapters 5 & 6)</span>
+                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--accent-cyan); letter-spacing: 1px; text-transform: uppercase;">Module 3</span>
                         <h3 style="margin-top: 0.25rem;">ECP in Architectures</h3>
                         <p>Understand how ECP maps to monoliths, microservices, and serverless, and see how topologies shape resilience in our live container failure simulator.</p>
                     </div>
@@ -110,7 +116,7 @@
                 <!-- Part 4 -->
                 <a href="patterns.html" class="glass-card portal-card">
                     <div>
-                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--accent-green); letter-spacing: 1px; text-transform: uppercase;">Module 4 (Chapters 7, 8 & 9)</span>
+                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--accent-green); letter-spacing: 1px; text-transform: uppercase;">Module 4</span>
                         <h3 style="margin-top: 0.25rem;">Patterns & Failure</h3>
                         <p>Master ECP design patterns, analyze outages mathematically using minimal cut-sets, and observe dynamic latency queues inside the performance chart simulator.</p>
                     </div>
