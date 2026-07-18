@@ -163,7 +163,7 @@
                         <p style="margin-top: 1rem; font-size: 0.95rem;">The **Interface Boundary** is the lock and bouncer on that door. It dynamically inspects every incoming message to verify permissions, rate-limit abuse, and validate data.</p>
                         <div class="control-panel">
                             <div class="toggle-container">
-                                <span style="font-weight: 600; font-size: 0.9rem;">Boundary Protection:</span>
+                                <span style="font-weight: 600; font-size: 0.9rem;">Interface Boundary Protection:</span>
                                 <label class="switch">
                                     <input type="checkbox" id="boundary-toggle" checked>
                                     <span class="slider"></span>
@@ -207,7 +207,7 @@
                         </div>
                     </div>
                     <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid var(--accent-green); padding: 1rem; border-radius: 10px; margin-top: 1rem; font-size: 0.9rem;">
-                        <strong>Interface Boundary in Action:</strong> The Customer *cannot* walk directly into the kitchen, open the fridge, and cook their own meal (bypassing boundaries). They must submit their request to the Waiter through the Menu interface. The Kitchen Counter acts as a Boundary, verifying the ticket order is valid before cooking.
+                        <strong>Interface Boundary in Action:</strong> The Customer *cannot* walk directly into the kitchen, open the fridge, and cook their own meal (bypassing Interface Boundaries). They must submit their request to the Waiter through the Menu interface. The Kitchen Counter acts as an Interface Boundary, verifying the ticket order is valid before cooking.
                     </div>
                 </div>
             </section>
@@ -301,25 +301,37 @@
                     <h2>What's the Difference?</h2>
                     <p>You might be wondering: *How does ECP differ from Object-Oriented Programming (OOP) objects?*</p>
                     <div class="tabs-container" style="margin-top: 1rem;">
-                        <div class="tabs-headers">
-                            <button class="tab-btn active" data-tab="tab-nyaya">Concept of Identity</button>
-                            <button class="tab-btn" data-tab="tab-samkhya">Interface & Gating</button>
-                            <button class="tab-btn" data-tab="tab-vedanta">Distributed Communication</button>
+                        <div class="tabs-headers" style="flex-wrap: wrap; gap: 0.5rem;">
+                            <button class="tab-btn active" data-tab="tab-oop-identity">Identity</button>
+                            <button class="tab-btn" data-tab="tab-oop-security">Encapsulation & Security</button>
+                            <button class="tab-btn" data-tab="tab-oop-coherence">Systemic Coherence</button>
+                            <button class="tab-btn" data-tab="tab-oop-scope">System Scope</button>
+                            <button class="tab-btn" data-tab="tab-oop-autonomy">Autonomy & Coupling</button>
                         </div>
-                        <div class="tab-content active" id="tab-nyaya">
-                            <h4 style="color: var(--accent-purple); margin-bottom: 0.5rem;">1. How Identity is Defined</h4>
+                        <div class="tab-content active" id="tab-oop-identity">
+                            <h4 style="color: var(--accent-purple); margin-bottom: 0.5rem;">1. Concept of Identity</h4>
                             <p><strong>OOP:</strong> Identity is static. An object is defined by its class, variables, and methods inside the code file.</p>
                             <p style="margin-top: 0.5rem;"><strong>ECP:</strong> Identity is relational and dynamic. An Entity is defined by how it is connected in the dependency network and the active effects it produces for others at runtime.</p>
                         </div>
-                        <div class="tab-content" id="tab-samkhya">
-                            <h4 style="color: var(--accent-blue); margin-bottom: 0.5rem;">2. Security & Gating</h4>
-                            <p><strong>OOP:</strong> Access control modifiers (public, private) are static and easily bypassed (e.g. by package scope, reflection, or direct imports).</p>
-                            <p style="margin-top: 0.5rem;"><strong>ECP:</strong> Boundaries are strict runtime gatekeepers. Every interface must carry an active Interface Boundary function (authorization, input cleaning) that dynamically inspects requests.</p>
+                        <div class="tab-content" id="tab-oop-security">
+                            <h4 style="color: var(--accent-blue); margin-bottom: 0.5rem;">2. Encapsulation & Security</h4>
+                            <p><strong>OOP:</strong> Encapsulation is enforced by compiler flags or visibility modifiers (public, private) which are static and easily bypassed (e.g. by package scope, reflection, or direct imports).</p>
+                            <p style="margin-top: 0.5rem;"><strong>ECP:</strong> Encapsulation is active. Every interface must carry an active Interface Boundary function (authorization, input cleaning) that dynamically inspects requests at runtime.</p>
                         </div>
-                        <div class="tab-content" id="tab-vedanta">
-                            <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">3. Scope of Systems</h4>
-                            <p><strong>OOP:</strong> Designed to encapsulate program code. It has no native way to model network delays, database servers, or human operators.</p>
-                            <p style="margin-top: 0.5rem;"><strong>ECP:</strong> Designed to unify everything. Microservices, databases, and human steps are represented as Entities communicating via network messages.</p>
+                        <div class="tab-content" id="tab-oop-coherence">
+                            <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">3. Systemic Coherence</h4>
+                            <p><strong>OOP:</strong> Relies on local class-level cohesion. Whole-system reliability and coherence are informal considerations left to manual architecture reviews.</p>
+                            <p style="margin-top: 0.5rem;"><strong>ECP:</strong> Coherence is formal. The paradigm leverages graph-theoretic patterns (cut sets, dependency flow) to mathematically model and verify failure domains and system health as a whole.</p>
+                        </div>
+                        <div class="tab-content" id="tab-oop-scope">
+                            <h4 style="color: var(--accent-purple); margin-bottom: 0.5rem;">4. System Scope</h4>
+                            <p><strong>OOP:</strong> Designed to model and structure computer code running inside a single program memory. It has no native way to encapsulate databases, networks, or human actions.</p>
+                            <p style="margin-top: 0.5rem;"><strong>ECP:</strong> Designed to unify everything. Technical services, database states, and socio-technical actors (human users, support staff, external teams) are all represented as Entities in the same network.</p>
+                        </div>
+                        <div class="tab-content" id="tab-oop-autonomy">
+                            <h4 style="color: var(--accent-blue); margin-bottom: 0.5rem;">5. Autonomy & Coupling</h4>
+                            <p><strong>OOP:</strong> Objects share execution threads and call each other's methods directly. A slow running method in one object blocks the caller, creating tight coupling and fragile call stacks.</p>
+                            <p style="margin-top: 0.5rem;"><strong>ECP:</strong> Entities are completely autonomous and run in isolated execution scopes. They can only communicate via explicit, asynchronous message channels, preventing cascading thread blocks.</p>
                         </div>
                     </div>
                 </div>

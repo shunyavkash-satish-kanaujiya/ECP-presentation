@@ -163,16 +163,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 arrow1.classList.add('active');
                 document.getElementById('dep-user').classList.add('active');
                 document.getElementById('dep-service').classList.add('active');
-                depSummary.innerHTML = "<strong style='color: var(--accent-purple);'>Incoming Dependency:</strong> The Billing Service relies on User actions. If the User types bad inputs, the Interface Boundary intercepts and sanitizes them.";
+                depSummary.innerHTML = "<strong style='color: var(--accent-purple);'>Outgoing Dependency (from Billing perspective):</strong> The User Entity depends on the Billing Service to fulfill the checkout role. This represents the service's outward influence.";
             } else if (entId === 'dep-service' || entId === 'dep-service2') {
                 document.getElementById('dep-service').classList.add('active');
                 document.getElementById('dep-service2').classList.add('active');
                 arrow2.classList.add('active');
                 document.getElementById('dep-db').classList.add('active');
-                depSummary.innerHTML = "<strong style='color: var(--accent-cyan);'>Outgoing Dependency:</strong> Billing Service depends on the DB Node to fetch card preferences (Knowledge). If the DB crashes, Billing becomes 'Unusable'.";
+                depSummary.innerHTML = "<strong style='color: var(--accent-cyan);'>Incoming Dependency (from Billing perspective):</strong> The Billing Service depends on the Database Node to fetch state (Knowledge). The service requires this connection to operate.";
             } else if (entId === 'dep-db') {
                 ent.classList.add('active');
-                depSummary.innerHTML = "<strong style='color: var(--accent-green);'>Storage Node:</strong> Retains database state. Because of ECP boundaries, other services cannot tamper with files directly; they must request read/write access via APIs.";
+                depSummary.innerHTML = "<strong style='color: var(--accent-green);'>Storage Node:</strong> Retains database state. Guarded by an Interface Boundary, other services cannot tamper with database files directly; they must request access via exposed APIs.";
             }
         });
     });
@@ -180,19 +180,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------
     // SLIDE 11: PHILOSOPHICAL TABS INTERACTION (REUSED FOR OOP VS ECP)
     // -------------------------------------------------------------
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tabTarget = btn.getAttribute('data-tab');
-
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-
-            btn.classList.add('active');
-            const targetContent = document.getElementById(tabTarget);
-            if (targetContent) targetContent.classList.add('active');
+    const tabContainers = document.querySelectorAll('.tabs-container');
+    tabContainers.forEach(container => {
+        const btns = container.querySelectorAll('.tab-btn');
+        const contents = container.querySelectorAll('.tab-content');
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabTarget = btn.getAttribute('data-tab');
+                btns.forEach(b => b.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                const targetContent = document.getElementById(tabTarget);
+                if (targetContent) targetContent.classList.add('active');
+            });
         });
     });
 
@@ -212,10 +212,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ],
         'sim-btn-2': [
             "&gt; Request hits API Gateway Interface Boundary.",
-            "&gt; [Gateway Boundary] acts as Bouncer: requests verification from User Auth service.",
+            "&gt; [Gateway Interface Boundary] acts as Bouncer: requests verification from User Auth service.",
             "&gt; [Auth Service Entity] checks session credentials in DB (Knowledge).",
             "&gt; Auth Service verifies token is active and valid.",
-            "&gt; [Gateway Boundary] opens door, routing request to Order Service."
+            "&gt; [Gateway Interface Boundary] opens door, routing request to Order Service."
         ],
         'sim-btn-3': [
             "&gt; [Order Service Entity] receives checkout order.",
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'sim-btn-4': [
             "&gt; [Billing Service Entity] detects stock reserve event.",
             "&gt; Billing Service contacts [External Stripe API Entity] via secure proxy.",
-            "&gt; [Stripe API Boundary] enforces PCI-DSS security checks.",
+            "&gt; [Stripe API Interface Boundary] enforces PCI-DSS security checks.",
             "&gt; Transaction processed securely. stripe returns Payment Success token."
         ],
         'sim-btn-5': [
